@@ -1,0 +1,22 @@
+
+.Register{
+    width: 100%;
+    text-align:-webkit-center;
+}
+.Register >div{
+    width: 40%;
+}
+.Gender{
+    display: flex;
+    justify-content: center;
+}
+.Gender>div>label{
+    margin-right: 20px;
+}
+.Hobby{
+    display: flex;
+    justify-content: center;
+}
+.Hobby>div>label{
+    margin-right: 20px;
+}
