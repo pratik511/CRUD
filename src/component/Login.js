@@ -15,8 +15,6 @@ const Login = () => {
         errorPassword: ''
     });
     const [loginUserData, setLoginUserData] = useState([])
-    console.log("loginUserData",loginUserData);
-    console.log("userData", userData);
     useEffect(() => {
         axios.get("http://localhost:5000/UserAuth").then((res) => setLoginUserData(res?.data)).catch((error) => console.log("error", error))
     }, [])

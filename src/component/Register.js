@@ -5,16 +5,17 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
-  const navigate= useNavigate();
+  const navigate = useNavigate();
   const [userData, setUserData] = useState({
-    id:Math.random(),
+    id: Math.random(),
     name: '',
     number: '',
     email: '',
     gender: '',
     hobby: [],
     password: '',
-    otherData:[]
+    location: '',
+    otherData: []
   })
   const [userDataError, setUserDataError] = useState({
     errorName: '',
@@ -22,9 +23,9 @@ const Register = () => {
     errorEmail: '',
     errorGender: '',
     errorHobby: '',
+    errorLocation:'',
     errorPassword: '',
   })
-  console.log("userData", userData);
 
   const onChangeValue = (e) => {
     const { name, value } = e.target;
@@ -88,6 +89,13 @@ const Register = () => {
         setUserDataError({ ...userDataError, errorHobby: '' })
       }
     }
+    else if (name === "location") {
+      if (!value) {
+        setUserDataError({ ...userDataError, errorLocation: 'Please Select Location' })
+      } else {
+        setUserDataError({ ...userDataError, errorLocation: '' })
+      }
+    }
     else if (name === "password") {
       if (!value) {
         setUserDataError({ ...userDataError, errorPassword: 'Please Enter Password' })
@@ -104,6 +112,7 @@ const Register = () => {
     let errorEmailMsg = ""
     let errorGenderMsg = ""
     let errorHobbyMsg = ""
+    let errorLocationMsg = ""
     let errorPasswordMsg = ""
 
     if (userData.name === '' || userData?.name.match(pattern)) {
@@ -126,14 +135,17 @@ const Register = () => {
       errorHobbyMsg = "Please Select Hobby"
       status = false
     }
+    if (userData.location === "") {
+      errorLocationMsg = "Please Select Location"
+      status = false
+    }
     if (userData.password === "") {
       errorPasswordMsg = "Please Enter Password"
       status = false
     }
     if (status) {
-      console.log("success");
-      axios.post('http://localhost:5000/UserAuth',userData)
-      // navigate('/login')
+      axios.post('http://localhost:5000/UserAuth', userData)
+      navigate('/login')
     } else {
       setUserDataError({
         errorName: errorNameMsg,
@@ -141,6 +153,7 @@ const Register = () => {
         errorEmail: errorEmailMsg,
         errorGender: errorGenderMsg,
         errorHobby: errorHobbyMsg,
+        errorLocation: errorLocationMsg,
         errorPassword: errorPasswordMsg
       })
     }
@@ -246,6 +259,21 @@ const Register = () => {
             {userDataError.errorHobby !== "" && (
               <p className="m-0" style={{ color: "red" }}>
                 {userDataError.errorHobby}
+              </p>
+            )}
+          </div>
+          <select className="dropdown-toggle" value={userData?.location || ''} name='location' onChange={(e) => onChangeValue(e)}>
+            <option value='' defaultChecked>Location</option>
+            <option value='Surat'>Surat</option>
+            <option value='Ahmedabad'>Ahmedabad</option>
+            <option value='Vadodara'>Vadodara</option>
+            <option value='Junagadh'>Junagadh</option>
+            <option value='Rajkot'>Rajkot</option>
+          </select>
+          <div>
+            {userDataError.errorLocation !== "" && (
+              <p className="m-0" style={{ color: "red" }}>
+                {userDataError.errorLocation}
               </p>
             )}
           </div>

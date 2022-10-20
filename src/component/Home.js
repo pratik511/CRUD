@@ -10,14 +10,14 @@ const Home = () => {
   const [allData, setAllData] = useState()
   const [load, setLoad] = useState(false)
   const [changeValue, setChangeValue] = useState('')
-  console.log("changeValue", changeValue);
   const userId = localStorage.getItem('user')
   useEffect(() => {
     axios.get("http://localhost:5000/UserAuth").then((res) => setAllData(res?.data)).catch((error) => console.log("error", error))
   }, [load])
 
+
+
   const myData = allData && allData?.filter((i) => i?.id == userId)
-  console.log("myData", myData);
 
   const onChangeValue = (e) => {
     const { name, value } = e.target;
@@ -75,6 +75,7 @@ const Home = () => {
 
   return (
     <Fragment>
+      <h1>Hello {myData && myData[0]?.name}</h1>
       <input value={name1.name} type="text" placeholder='Please Enter Value' name='name' onChange={(e) => onChangeValue(e)} required />
       <button onClick={() => { !changeValue ? onSubmit() : onEdit() }}> {!changeValue ? "Submit" : "Edit"}</button>
       <br />
